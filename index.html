@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <style>
+        .container{
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        #div_of_customer{
+            width: 100%;
+            height: 100px;
+            text-align: center;
+        }
+        #p_customer{
+            position: relative;
+           top: 50%;
+            font-size: 30px;
+            font-family: Arial;
+        }
+        .form-group{
+            margin-top: 20px;
+            position: relative;
+        }
+        .btn-group{
+            margin-top: 30px;
+        }
+        .table{
+            margin-top: 30px;
+        }
+        .thead{
+            background-color: #007bff;
+        }
+
+        #div_of_Item{
+            width: 100%;
+            height: 100px;
+            text-align: center;
+        }
+        #p_Item{
+            position: relative;
+            top: 50%;
+            font-size: 30px;
+            font-family: Arial;
+        }
+        .form-group{
+            margin-top: 20px;
+            position: relative;
+        }
+    </style>
+
+</head>
+<body onload="getAllCustomer();getAllItem();setCustomer();setItem();">
+<div id="customerBody">
+    <div class="container">
+        <div id="div_of_customer">
+            <p id="p_customer">Customer</p>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-4" style="margin-left: 50px">
+                    <form>
+                        <div class="form-group">
+                            <label>Customer ID</label>
+                            <input type="text" class="form-control" id="Customer_ID"  placeholder="Enter Customer ID">
+                        </div>
+                        <div class="form-group">
+                            <label>Customer Name</label>
+                            <input type="text" class="form-control" id="Customer_Name"  placeholder="Enter Customer Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Customer Address</label>
+                            <input type="text" class="form-control" id="Customer_Address"  placeholder="Enter Customer Address">
+                        </div>
+                        <div class="form-group">
+                            <label>Customer Contact</label>
+                            <input type="text" class="form-control" id="Customer_Contact"  placeholder="Enter Customer Contact">
+                        </div>
+                    </form>
+
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-danger" onclick="deleteCustomer()">Delete</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-warning" onclick="updateCustomer()">Update</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-success" onclick="saveCustomer()">Save</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-success" id="back_btn_of_customer">Back</button>
+                    </div>
+                </div>
+                <div class="col-7" style="margin-left: 20px">
+                    <table class="table">
+                        <thead class="thead">
+                        <tr>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Customer Address</th>
+                            <th scope="col">Customer Contact</th>
+                        </tr>
+                        </thead>
+                        <tbody id="customer_tbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="itemBody">
+    <div class="container">
+        <div id="div_of_Item">
+            <p id="p_Item">Item</p>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-4" style="margin-left: 50px">
+                    <form>
+                        <div class="form-group">
+                            <label>Item ID</label>
+                            <input type="text" class="form-control" id="Item_ID"  placeholder="Enter Customer ID">
+                        </div>
+                        <div class="form-group">
+                            <label>Item Name</label>
+                            <input type="text" class="form-control" id="Item_Name"  placeholder="Enter Customer Name">
+                        </div>
+                        <div class="form-group">
+                            <label>Item QTY</label>
+                            <input type="text" class="form-control" id="Item_QTY"  placeholder="Enter Customer Address">
+                        </div>
+                        <div class="form-group">
+                            <label>Item Price</label>
+                            <input type="text" class="form-control" id="Item_Price"  placeholder="Enter Customer Contact">
+                        </div>
+                    </form>
+
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-danger" onclick="deleteItem">Delete</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-warning" onclick="updateItem()">Update</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-success" onclick="saveItem()">Save</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-success" id="back_btn_of_item">Back</button>
+                    </div>
+                </div>
+                <div class="col-7" style="margin-left: 20px">
+                    <table class="table">
+                        <thead class="thead">
+                        <tr>
+                            <th scope="col">Item ID</th>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Item QTY</th>
+                            <th scope="col">Item Price</th>
+                        </tr>
+                        </thead>
+                        <tbody id="item_tbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="orderBodyOfMain">
+    <div class="container-fluid bg-light" id="orderBody">
+        <div class="container-fluid mt-4">
+            <div class="jumbotron pt-4">
+                <div id="div_of_Order">
+                    <p id="p_place_order">Place Order</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header" style="background: #007bff;color: white;font-weight: bold">Order
+                                Detail
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="OrderID">OrderID</label>
+                                                <input class="form-control" id="OrderID" placeholder="OrderID" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Date">Date</label>
+                                                <input class="form-control" id="Date" placeholder="Date" type="date">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="CusID">Customer ID</label>
+                                                <select class="form-control" id="CusID">
+                                                    <option>Customer ID</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Date">Customer Name</label>
+                                                <input class="form-control" id="CusName" placeholder="CusName" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Date">Customer Address</label>
+                                                <input class="form-control" id="CusAddress" placeholder="CusAddress"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="Date">Customer Contact</label>
+                                                <input class="form-control" id="CusContact" placeholder="CusContact"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mt-4 ml-3">
+                                            <button class="btn btn-primary col-12" id="addCustomer" type="button">AddCustomer</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header" style="background: #007bff;color: white;font-weight: bold">Item
+                                Detail
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="addItem">Item Code</label>
+                                            <select class="form-control" id="OrderItemID">
+                                                <option>Item</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Item Name</label>
+                                            <input class="form-control" id="OrderItemName" placeholder="ItemName"
+                                                   type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Unit Price</label>
+                                            <input class="form-control" id="OrderItemUnitPrice" placeholder="UnitPrice"
+                                                   type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Quantity on hand</label>
+                                            <input class="form-control" id="OrderQTYOnHand" placeholder="QTYOnHand"
+                                                   type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Quantity</label>
+                                            <input class="form-control" id="OrderQTY" placeholder="QTY" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group mt-4 ml-3">
+                                        <button class="btn btn-primary col-12" id="addItem" type="button">AddItem</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header" style="background: #007bff"></div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Total</label>
+                                            <input class="form-control" id="total" placeholder="00.00" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Sub Total</label>
+                                            <input class="form-control" id="subTotal" placeholder="00.00" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Cash</label>
+                                            <input class="form-control" id="cash" placeholder="QTYOnHand" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Discount</label>
+                                            <input class="form-control" id="discount" placeholder="QTY" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="Date">Balance</label>
+                                            <input class="form-control" id="balance" placeholder="QTY" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group  mt-4 ml-3">
+                                        <button class="btn btn-primary col-12" type="button" onclick="payment()">Payment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="placeOrder()">Place Order</button>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Item Code</th>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">QTY</th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="tblOrderItemBody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
+        integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi"
+        crossOrigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+        integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG"
+        crossOrigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="CustomerArray.js"></script>
+<script src="CustomerModel.js"></script>
+<script src="ItemArray.js"></script>
+<script src="ItemModel.js"></script>
+<script>
+
+
+    $(document).ready(function (){
+        $('#orderBodyOfMain').css('display','block')
+        $('#itemBody').css('display','none');
+        $('#customerBody').css('display','none');
+
+
+    });
+    $('#addCustomer').on('click',function (){
+        $('#customerBody').css('display','block');
+        $('#orderBodyOfMain').css('display','none')
+        $('#itemBody').css('display','none');
+    })
+    $('#addItem').on('click',function (){
+        $('#itemBody').css('display','block');
+        $('#customerBody').css('display','none');
+        $('#orderBodyOfMain').css('display','none')
+    })
+    $('#back_btn_of_customer').on('click',function (){
+        $('#orderBodyOfMain').css('display','block')
+        $('#itemBody').css('display','none');
+        $('#customerBody').css('display','none');
+    })
+    $('#back_btn_of_item').on('click',function (){
+        $('#orderBodyOfMain').css('display','block')
+        $('#itemBody').css('display','none');
+        $('#customerBody').css('display','none');
+    })
+
+    function saveCustomer(){
+        const myData={
+            CustomerID:$('#Customer_ID').val().toString(),
+            CustomerName:$('#Customer_Name').val().toString(),
+            CustomerAddress:$('#Customer_Address').val().toString(),
+            CustomerContact:$('#Customer_Contact').val().toString()
+        }
+
+
+        $.ajax({
+            url: 'http://localhost:3001/saveCustomer',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+                if (resp.isSaved == true){
+                    getAllCustomer();
+                    alert("Customer Saved")
+                }else {
+                    alert("Try Agin");
+                }
+            },
+            data: JSON.stringify(myData)
+        })
+
+        $('#customer_tbody tr').off('click');
+        $('#customer_tbody tr').on('click',function (){
+            var id=$($(this).children.get(0)).text();
+            var name=$($(this).children.get(1)).text();
+            var address=$($(this).children.get(2)).text();
+            var contact=$($(this).children.get(3)).text();
+
+            $('#Customer_ID').val(id);
+            $('#Customer_Name').val(name);
+            $('#Customer_Address').val(address);
+            $('#Customer_Contact').val(contact);
+        })
+    }
+
+    function getAllCustomer(){
+        $('#customer_tbody').empty();
+        $.ajax({
+            url: 'http://localhost:3001/getAllCustomers',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+               for (var i=0;i<resp.data.length;i++){
+                   $('#customer_tbody').append('<tr><td>'+resp.data[i].CustomerID+'</td><td>'+resp.data[i].CustomerName+'</td><td>'+resp.data[i].CustomerAddress+'</td><td>'+resp.data[i].CustomerContact+'</td></tr>');
+                   $('#CusID').append('<option>'+resp.data[i].CustomerID+'</option>');
+               }
+            },
+        })
+
+    }
+
+    function updateCustomer(){
+        const myData={
+            CustomerID:$('#Customer_ID').val().toString(),
+            CustomerName:$('#Customer_Name').val().toString(),
+            CustomerAddress:$('#Customer_Address').val().toString(),
+            CustomerContact:$('#Customer_Contact').val().toString()
+        }
+
+
+        $.ajax({
+            url: 'http://localhost:3001/updateCustomer',
+            type: 'PUT',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+                if (resp.isUpdate == true){
+                    getAllCustomer();
+                    alert("Customer Updated")
+                }else {
+                    alert("Try Agin");
+                }
+            },
+            data: JSON.stringify(myData)
+        })
+
+    }
+
+    function deleteCustomer(){
+        var ID=$('#Customer_ID').val().toString();
+        $.ajax({
+            url: 'http://localhost:3001/deleteCustomer',
+            type: 'DELETE',
+            headers:{'id': ID},
+            success: function (resp) {
+                if (resp.isDeleted == true){
+                    getAllCustomer();
+                    alert("Customer Deleted");
+                }else {
+                    alert("Try Again");
+                }
+            },
+
+        })
+
+    }
+
+
+    function saveItem(){
+        const myData={
+            ItemID:$('#Item_ID').val().toString(),
+            ItemName:$('#Item_Name').val().toString(),
+            ItemQTY:$('#Item_QTY').val().toString(),
+            ItemPrice:$('#Item_Price').val().toString()
+        }
+
+
+        $.ajax({
+            url: 'http://localhost:3001/saveItem',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+                if (resp.isSaved == true){
+                    getAllItem();
+                    alert("Item Saved")
+                }else {
+                    alert("Try Agin");
+                }
+            },
+            data: JSON.stringify(myData)
+        })
+    }
+
+    function updateItem(){
+        const myData={
+            ItemID:$('#Item_ID').val().toString(),
+            ItemName:$('#Item_Name').val().toString(),
+            ItemQTY:$('#Item_QTY').val().toString(),
+            ItemPrice:$('#Item_Price').val().toString()
+        }
+
+
+        $.ajax({
+            url: 'http://localhost:3001/updateItem',
+            type: 'PUT',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+                if (resp.isUpdate == true){
+                    getAllItem();
+                    alert("Item Updated")
+                }else {
+                    alert("Try Agin");
+                }
+            },
+            data: JSON.stringify(myData)
+        })
+    }
+
+    function deleteItem(){
+        var ID=$('#Item_ID').val().toString();
+        $.ajax({
+            url: 'http://localhost:3001/deleteItem',
+            type: 'DELETE',
+            headers:{'id': ID},
+            success: function (resp) {
+                if (resp.isDeleted == true){
+                    getAllItem()
+                    alert("Item Deleted");
+                }else {
+                    alert("Try Again");
+                }
+            },
+
+        })
+    }
+
+
+    function  getAllItem(){
+        $('#item_tbody').empty();
+        $.ajax({
+            url: 'http://localhost:3001/getAllItem',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+                for (var i=0;i<resp.data.length;i++){
+                    console.log(resp.data.length)
+                    $('#item_tbody').append('<tr><td>'+resp.data[i].ItemID+'</td><td>'+resp.data[i].ItemName+'</td><td>'+resp.data[i].ItemQTY+'</td><td>'+resp.data[i].ItemPrice+'</td></tr>');
+                    $('#OrderItemID').append('<option>'+resp.data[i].ItemID+'</option>');
+                    itemArray.push(new Item(resp.data[i].ItemID,resp.data[i].ItemName,resp.data[i].ItemQTY,resp.data[i].ItemPrice))
+                }
+                console.log(itemArray.length)
+            },
+        })
+
+    }
+
+    var totalOfAmount=0;
+    function placeOrder(){
+        var qty=Number.parseFloat($('#OrderQTY').val().toString());
+        var price=Number.parseFloat($('#OrderItemUnitPrice').val().toString());
+        var total=qty*price;
+        console.log(totalOfAmount);
+        totalOfAmount=totalOfAmount+total;
+        console.log(totalOfAmount)
+        var id=$('#OrderID').val().toString();
+        const myData={
+            OD_ID:$('#OrderID').val().toString(),
+            OD_CustomerID:$('#CusID').val().toString(),
+            OD_ItemID:$('#OrderItemID').val().toString(),
+            OD_ItemName:$('#OrderItemName').val().toString(),
+            OD_QTY:$('#OrderQTY').val().toString(),
+            OD_Total:total,
+        }
+
+
+        $.ajax({
+            url: 'http://localhost:3001/saveOrder',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+                if (resp.isAdded == true){
+                    alert("true")
+                    alert(totalOfAmount);
+                    $('#total').val(totalOfAmount);
+                    setOrderTable();
+                }
+            },
+            data: JSON.stringify(myData)
+        })
+    }
+
+    function setCustomer(){
+
+        $.ajax({
+            url: 'http://localhost:3001/getAllCustomers',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+                for (var i=0;i<resp.data.length;i++){
+                   var c=new Customer(resp.data[i].CustomerID,resp.data[i].CustomerName,resp.data[i].CustomerAddress,resp.data[i].CustomerContact);
+                   cusArray.push(c);
+                }
+            },
+        })
+    }
+
+    function setItem(){
+        $.ajax({
+            url: 'http://localhost:3001/getAllItem',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (resp) {
+                // console.log(resp.data.length)
+                // for (var i=0;i<resp.data.length;i++){
+                //     console.log(resp.data[i].ItemName);
+                //     var i=new Item(resp.data[i].ItemID,resp.data[i].ItemName,resp.data[i].ItemQTY,resp.data[i].ItemPrice);
+                //     itemArray.push(i);
+                // }
+                // console.log(itemArray.length)
+            },
+        })
+    }
+
+
+    $('#CusID').on('change', function () {
+        var id = $(this).val();
+        for (var i = 0; i < cusArray.length; i++) {
+            if (id == cusArray[i].getCustomerID()) {
+                $('#CusID').val(cusArray[i].getCustomerID());
+                $('#CusName').val(cusArray[i].getCustomerName());
+                $('#CusAddress').val(cusArray[i].getCustomerAddress());
+                $('#CusContact').val(cusArray[i].getCustomerContact());
+            }
+        }
+    });
+
+    $('#OrderItemID').on('change', function () {
+        var itemid = $(this).val();
+        for (var i = 0; i < itemArray.length; i++) {
+            if (itemid == itemArray[i].getItemID()) {;
+                console.log("QTY"+itemArray[i].getItemQTY())
+                $('#OrderItemID').val(itemArray[i].getItemID());
+                $('#OrderItemName').val(itemArray[i].getItemName());
+                $('#OrderItemUnitPrice').val(itemArray[i].getItemPrice());
+                $('#OrderQTYOnHand').val(itemArray[i].getItemQTY());
+            }
+        }
+    });
+
+
+    function setOrderTable(){
+        var id=$('#OrderID').val().toString();
+
+        $('#tblOrderItemBody').empty();
+        $.ajax({
+            url: 'http://localhost:3001/getOrders',
+            type: 'GET',
+            headers:{'id':id},
+            success: function (resp) {
+                console.log(resp)
+                for (var i=0;i<resp.data.length;i++){
+                    $('#tblOrderItemBody').append('<tr><td>'+resp.data[i].OD_ID+'</td><td>'+resp.data[i].OD_CustomerID+'</td><td>'+resp.data[i].OD_ItemID+'</td><td>'+resp.data[i].OD_ItemName+'</td><td>'+resp.data[i].OD_QTY+'</td></tr>')
+                }
+
+            }
+        })
+    }
+
+    function payment(){
+        var total=Number.parseFloat($('#total').val().toString());
+        var discount=Number.parseFloat($('#discount').val().toString());
+        var cash=Number.parseFloat($('#cash').val().toString());
+
+        var amountOfDis=total* (discount/100);
+        var subTotal=total-amountOfDis;
+        $('#subTotal').val(subTotal);
+        var balance= cash-subTotal;
+
+        $('#balance').val(balance);
+
+
+
+    }
+
+
+
+</script>
+</body>
+</html>
